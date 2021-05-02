@@ -1,0 +1,22 @@
+# command to start the docker compose
+# docker-compose up --build
+version: '3'
+services:
+   web:
+     build:
+       context: .
+       dockerfile: DockerFile.dev
+     ports:
+       - "3000:3000"
+     volumes:
+       - /app/node_modules
+       - .:/app
+   # this is solely for running the test suites, this will create a new container
+   test:
+      build:
+        context: .
+        dockerfile: DockerFile.dev
+      volumes:
+        - /app/node_modules
+        - .:/app
+      command: ["npm", "run", "test"]
